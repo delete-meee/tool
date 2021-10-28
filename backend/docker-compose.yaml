@@ -1,0 +1,47 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: db_container
+    env_file: ./mysql/mysql.env
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - '3306:3306'
+    restart: always
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d/:ro
+    networks:
+      - db-network
+
+  api:
+    build: .
+    container_name: api_container
+    env_file: ./app.env
+    environment:
+      - TZ=Asia/Tokyo
+      - DEBUG=app:*
+    tty: true
+    ports:
+      - '5000:5000'
+    restart: always
+    volumes:
+      - ./resource_tool_backend/dist:/backend
+    working_dir: /backend
+    command: node main.js
+    networks:
+      - db-network
+      - api-network
+    depends_on:
+      - mysql
+
+#使用するネットワークを作成。docker-composeの場合service以下の名前を使って名前解決されるため、appとmysqlが自動的に接続される。
+networks:
+  default:
+    external:
+      name: bridge
+  db-network:
+    # これが作成されるネットワーク名（同名がなければ自動生成される）
+    name: docker.internal
+  api-network:
+    external: true
