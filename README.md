@@ -139,6 +139,18 @@ docker network create api-network
 ```
 その後、それぞれのdocker-compose up -d
 
+### MySQL
+Docker内のMySQLにアクセス
+```
+docker exec -it (DBのコンテナ名) mysql -u (app.envで指定したユーザー名) -p
+```
+パスワードを求められるので、app.envで指定したパスワードを入力<br>
+その後SQLでMySQL操作できます
+- Table 作成
+  - create table member (id int, name varchar(10));
+- データ追加
+  - insert into member values (1, 'sasamori');
+
 ### 動作確認
 - localhost:3000にアクセス
 - 実行イメージのようになるはず
