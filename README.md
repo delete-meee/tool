@@ -146,6 +146,8 @@ docker exec -it (DBのコンテナ名) mysql -u (app.envで指定したユーザ
 ```
 パスワードを求められるので、app.envで指定したパスワードを入力<br>
 その後SQLでMySQL操作できます
+- 操作するDBの指定
+  - use (app.envで指定したDB名);
 - Table 作成
   - create table member (id int, name varchar(10));
 - データ追加
