@@ -1,0 +1,44 @@
+version: '3'
+services:
+  db:
+    build: ./backend/mysql # Dockerfileの場所を指定
+    container_name: db_container
+    env_file: ./backend/mysql/mysql.env
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - '3306:3306'
+    restart: always
+    networks:
+      - db-network
+
+  api:
+    build: ./backend/resource_tool_backend
+    container_name: api_container
+    env_file: ./backend/app.env
+    environment:
+      - TZ=Asia/Tokyo
+      - DEBUG=app:*
+    tty: true
+    ports:
+      - '5000:5000'
+    restart: always
+    working_dir: /backend
+    command: node main.js
+    networks:
+      - db-network
+      - api-network
+    depends_on:
+      - db
+    
+  app:
+    build: ./frontend/
+    container_name: app_container
+    ports:
+      - 3000:80
+    networks:
+      - api-network
+
+networks:
+  db-network:
+  api-network:

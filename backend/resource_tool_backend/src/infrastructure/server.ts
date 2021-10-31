@@ -47,7 +47,7 @@ app.get('/users', (req: express.Request, res: express.Response) => {
 // MySQL操作API(tableにデータはInsert済み)
 app.get('/sql', async(req: express.Request, res: express.Response) => {
     const connection = await mysql.createConnection({
-        host: 'mysql',
+        host: 'db',
         user: 'sasamori',
         password: 'password',
         database: 'mydb'
