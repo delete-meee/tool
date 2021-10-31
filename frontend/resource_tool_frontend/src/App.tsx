@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 function App() {
-  const [data, setData] = useState([{"id":1,"name":"nonoyama"}, {"id":1,"name":"nonoyama"}]);
+  const [data, setData] = useState([{"id":1,"name":"rekidai"}, {"id":2,"name":"souri"}]);
   async function getData() {
     const ret = await axios.get('http://localhost:5000/sql');
     console.log(ret);
